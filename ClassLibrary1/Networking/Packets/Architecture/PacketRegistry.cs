@@ -139,6 +139,10 @@ namespace ONI_MP.Networking.Packets.Architecture
             TryRegister(typeof(ResearchCompletePacket));
             TryRegister(typeof(EntitySpawnPacket));
             TryRegister(typeof(AssignmentPacket));
+            // Story Traits Sync
+            TryRegister(typeof(StoryStatePacket));
+            TryRegister(typeof(StoryActionRequestPacket));
+            TryRegister(typeof(StoryPopupPacket));
 		}
 
         public static void TryRegister(Type packetType, string nameOverride = "")
