@@ -186,8 +186,9 @@ namespace ONI_MP.Networking.Packets.World
 					}
 
 					// Override the NetId to match host
-					identity.NetId = NetId;
-					NetworkIdentityRegistry.Register(identity);
+					//identity.NetId = NetId;
+					//NetworkIdentityRegistry.Register(identity);
+					identity.OverrideNetId(NetId);
 
 					DebugConsole.Log($"[EntitySpawnPacket] Client: Registered entity with NetId {NetId}");
 				}

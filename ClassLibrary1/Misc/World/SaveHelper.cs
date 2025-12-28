@@ -72,17 +72,35 @@ public static class SaveHelper
 
 	private static IEnumerator ShowMessageAndReturnToTitle(string msg = null)
 	{
-		if (msg == null)
-			msg = MP_STRINGS.UI.MP_OVERLAY.CLIENT.LOST_CONNECTION;
+		// This is stupid
+		try
+		{
+            if (msg == null)
+                msg = MP_STRINGS.UI.MP_OVERLAY.CLIENT.LOST_CONNECTION;
 
-		MultiplayerOverlay.Show(msg);
+            MultiplayerOverlay.Show(msg);
+        } catch(Exception e)
+		{
+			// Something went wrong
+			MultiplayerOverlay.Close();
+            App.LoadScene("frontend");
+        }
 
 		yield return new WaitForSeconds(5);
-		MultiplayerOverlay.Close();
-		NetworkIdentityRegistry.Clear();
-		SteamLobby.LeaveLobby();
 
-		App.LoadScene("frontend");
+		try
+		{
+			MultiplayerOverlay.Close();
+			NetworkIdentityRegistry.Clear();
+			SteamLobby.LeaveLobby();
+
+			App.LoadScene("frontend");
+		} catch(Exception e)
+		{
+            MultiplayerOverlay.Close();
+            // Something else went wrong
+            App.LoadScene("frontend");
+		}
 	}
 	public static bool SavegameDlcListValid(byte[] saveBytes, out string errorMsg)
 	{

@@ -31,9 +31,10 @@ namespace ONI_MP
                 public static LocString BACK = "Back";
                 public static LocString LOADING_LOBBIES = "Loading Lobbies...";
                 public static LocString NO_PUBLIC_LOBBIES_FOUND = "No public lobbies found. Try hosting your own!";
-                public static LocString FOUND_X_LOBBIES = "Found {0} lobby(s)";
+                public static LocString FOUND_X_LOBBIES = "Found {0} joinable lobby(s)";
                 public static LocString JOIN_BUTTON = "Join";
-				public static LocString PASSWORD_REQUIRED = "Password Required";
+                public static LocString FRIEND_ONLY = "Friends Only";
+                public static LocString PASSWORD_REQUIRED = "Password Required";
                 public static LocString PASSWORD_INCORRECT = "Incorrect password";
                 public static LocString CANCEL = "Cancel";
                 public static LocString REFRESH = "Refresh";

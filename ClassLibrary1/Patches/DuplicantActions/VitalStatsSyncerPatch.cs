@@ -10,6 +10,7 @@ namespace ONI_MP.Patches.DuplicantActions
 		public static void Postfix(MinionIdentity __instance)
 		{
 			if (!MultiplayerSession.IsHost) return;
+			if (__instance.IsNullOrDestroyed()) return;
 
 			// Attach VitalStatsSyncer if not present
 			var syncer = __instance.gameObject.GetComponent<VitalStatsSyncer>();

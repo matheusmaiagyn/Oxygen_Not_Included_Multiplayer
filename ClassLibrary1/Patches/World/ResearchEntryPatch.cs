@@ -9,10 +9,11 @@ namespace ONI_MP.Patches.World
 	{
 		public static bool Prefix(ResearchEntry __instance)
 		{
+			if (!MultiplayerSession.InSession) return true; // Offline, operate normally
 			if (MultiplayerSession.IsHost) return true; // Host operates normally
 
 			// Client: Send Request
-			var targetTech = Traverse.Create(__instance).Field("targetTech").GetValue<Tech>();
+			var targetTech = __instance.targetTech;
 			if (targetTech != null)
 			{
 				var packet = new ResearchRequestPacket

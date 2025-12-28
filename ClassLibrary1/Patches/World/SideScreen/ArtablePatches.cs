@@ -6,11 +6,20 @@ using ONI_MP.Networking.Packets.World;
 
 namespace ONI_MP.Patches.World.SideScreen
 {
-	/// <summary>
-	/// Patches for Artable (painting/sculpture) selection synchronization
-	/// </summary>
+    /// <summary>
+    /// Patches for Artable (painting/sculpture) selection synchronization
+    /// </summary>
+    [HarmonyPatch(typeof(Artable), nameof(Artable.OnSpawn))]
+    public static class Artable_OnSpawn_Patch
+    {
+        public static void Postfix(Artable __instance)
+        {
+            var receptacleIdentity = __instance.gameObject.AddOrGet<NetworkIdentity>();
+            receptacleIdentity.RegisterIdentity();
+        }
+    }
 
-	[HarmonyPatch(typeof(Artable), nameof(Artable.SetUserChosenTargetState))]
+    [HarmonyPatch(typeof(Artable), nameof(Artable.SetUserChosenTargetState))]
 	public static class Artable_SetUserChosenTargetState_Patch
 	{
 		public static void Postfix(Artable __instance, string stageID)
@@ -18,8 +27,9 @@ namespace ONI_MP.Patches.World.SideScreen
 			if (BuildingConfigPacket.IsApplyingPacket) return;
 			if (!MultiplayerSession.InSession) return;
 
-			var identity = __instance.gameObject.AddOrGet<NetworkIdentity>();
-			identity.RegisterIdentity();
+			var identity = __instance.gameObject.GetComponent<NetworkIdentity>();
+			if (!identity)
+				return;
 
 			var packet = new BuildingConfigPacket
 			{
@@ -45,8 +55,9 @@ namespace ONI_MP.Patches.World.SideScreen
 			if (BuildingConfigPacket.IsApplyingPacket) return;
 			if (!MultiplayerSession.InSession) return;
 
-			var identity = __instance.gameObject.AddOrGet<NetworkIdentity>();
-			identity.RegisterIdentity();
+			var identity = __instance.gameObject.GetComponent<NetworkIdentity>();
+			if (!identity)
+				return;
 
 			var packet = new BuildingConfigPacket
 			{

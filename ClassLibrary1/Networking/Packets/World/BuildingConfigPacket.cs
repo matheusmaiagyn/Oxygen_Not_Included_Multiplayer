@@ -65,9 +65,17 @@ namespace ONI_MP.Networking.Packets.World
 					GameObject buildingGO = Grid.Objects[Cell, (int)ObjectLayer.Building];
 					if (buildingGO != null)
 					{
-						identity = buildingGO.AddOrGet<NetworkIdentity>();
-						identity.NetId = NetId; // Client forces the NetId from Host
-						identity.RegisterIdentity();
+						identity = buildingGO.GetComponent<NetworkIdentity>();
+						if (identity)
+						{
+							identity.OverrideNetId(NetId); // Override properly from the host
+						}
+						else
+						{
+							identity = buildingGO.AddOrGet<NetworkIdentity>();
+							identity.NetId = NetId; // Client forces the NetId from Host
+							identity.RegisterIdentity();
+						}
 						DebugConsole.Log($"[BuildingConfigPacket] Resolved missing identity for {buildingGO.name} at cell {Cell}. Assigned NetId: {NetId}");
 					}
 				}
